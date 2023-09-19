@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+  <form method="post">{% csrf_token %}
+    <h2>Точно удалить?</h2>
+    <p>Дата: {{ object.date }}</p>
+    <p>Сумма (тг.): {{ object.amount }}</p>
+    <p>Тип: {{ object.get_transaction_type_display }}</p>
+    <p>Категория: {{ object.category.name }}</p>
+    <p>Описание: {{ object.description }}</p>
+    <button type="submit" class="btn btn-danger">Уверен</button>
+    <a href="{% url 'transactions.list' %}" class="btn btn-secondary">Передумал</a>
+  </form>
+</div>
+{% endblock %}
