@@ -114,24 +114,46 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        start_date = self.request.GET.get('start_date')
-        end_date = self.request.GET.get('end_date')
+        # start_date = self.request.GET.get('start_date')
+        # end_date = self.request.GET.get('end_date')
 
-        transactions = Transaction.objects.filter(
-            date__range=(start_date, end_date),
-            user=self.request.user
-        )
+        # transactions = Transaction.objects.filter(
+        #     date__range=(start_date, end_date),
+        #     user=self.request.user
+        # )
 
-        income_data = transactions.filter(
-            transaction_type='I'
-        ).values('category__name').annotate(total=Sum('amount'))
+        transactions = Transaction.objects.filter(user=self.request.user)
+        transactions_totals = Transaction.objects.filter(user=self.request.user)
 
-        expense_data = transactions.filter(
-            transaction_type='E'
-        ).values('category__name').annotate(total=Sum('amount'))
+        
+        # Get the start and end dates from the request parameters to filter
+        start_date_str = self.request.GET.get('start_date')
+        end_date_str = self.request.GET.get('end_date')
+        
+        if start_date_str and end_date_str:
+            # Convert the string dates to datetime objects
+            start_date = timezone.datetime.strptime(start_date_str, '%Y-%m-%d').date()
+            end_date = timezone.datetime.strptime(end_date_str, '%Y-%m-%d').date()
+
+            # Filter the transactions based on the provided date range
+            transactions = transactions.filter(date__range=(start_date, end_date))
+            transactions_totals = transactions_totals.filter(date__range=(start_date, end_date))
+        
+        income_data = transactions.filter(transaction_type='I').values('category__name').annotate(total=Sum('amount'))
+        expense_data = transactions.filter(transaction_type='E').values('category__name').annotate(total=Sum('amount'))
+
+        total_data = transactions_totals.values('transaction_type').annotate(total=Sum('amount')).order_by('-transaction_type')
+
+        for item in total_data:
+            if item['transaction_type'] == 'I':
+                item['transaction_type_display'] = 'Доходы'
+            elif item['transaction_type'] == 'E':
+                item['transaction_type_display'] = 'Расходы'
 
         context['income_data'] = income_data
         context['expense_data'] = expense_data
+
+        context['total_data'] = total_data
 
         return context
     
