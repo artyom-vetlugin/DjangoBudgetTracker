@@ -10,7 +10,8 @@
 {% block content %}
 <form method='post'>{% csrf_token %}
     {{form.as_p}}
-    <input type='submit' class="btn btn-secondary" value="Войти"/>
+    <input type='submit' class="btn btn-primary" value="Войти"/>
 </form>
+<a href="{% url 'password_reset' %}">Забыли пароль?</a>
 
 {% endblock %}

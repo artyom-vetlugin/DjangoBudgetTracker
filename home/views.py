@@ -1,6 +1,14 @@
 from django.views.generic import TemplateView
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from django.contrib.auth.views import (
+    LoginView, 
+    LogoutView,
+    PasswordChangeView,
+    PasswordResetView, 
+    PasswordResetDoneView, 
+    PasswordResetConfirmView,
+    PasswordResetCompleteView
+)
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django import forms
 from django.contrib.auth.models import User
@@ -83,3 +91,16 @@ class ChangePasswordView(PasswordChangeView):
     form_class = PasswordChangeForm
     template_name = 'home/change_password.html'
     success_url = "/profile"
+
+class MyPasswordResetView(PasswordResetView):
+    template_name = 'home/password_reset.html'
+
+class MyPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'home/password_reset_done.html'
+
+class MyPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'home/password_reset_confirm.html'
+
+class MyPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'home/password_reset_complete.html'
+
