@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
+{% block head_extra %}
+  <style>
+    input[type="password"], input[type="text"], input[type="email"] {
+        border: 1px solid #cec2c2;
+        border-radius: 5px;
+    }
+  </style>
+{% endblock %}
 {% block content %}
-
 <form method='POST' style='text-align: left; margin: 0 auto; width: 600px;'>{% csrf_token %}
     {{form.as_p}}
     <input class='btn btn-secondary' type='submit' name='Submit' value="Зарегистрироваться"/>

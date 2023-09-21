@@ -17,7 +17,7 @@ class TransactionsListView(LoginRequiredMixin, ListView):
     context_object_name = "transactions"
     template_name = "budget_app/transactions.html"
     login_url = "/login"
-    paginate_by = 5
+    paginate_by = 10
 
     # To filter by dates
     def get_queryset(self):
@@ -113,14 +113,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # start_date = self.request.GET.get('start_date')
-        # end_date = self.request.GET.get('end_date')
-
-        # transactions = Transaction.objects.filter(
-        #     date__range=(start_date, end_date),
-        #     user=self.request.user
-        # )
 
         transactions = Transaction.objects.filter(user=self.request.user)
         transactions_totals = Transaction.objects.filter(user=self.request.user)

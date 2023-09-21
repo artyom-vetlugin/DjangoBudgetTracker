@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-center">
+<div class="d-flex">
   <form method="post">{% csrf_token %}
     <h2>Точно удалить?</h2>
     <p>Дата: {{ object.date }}</p>

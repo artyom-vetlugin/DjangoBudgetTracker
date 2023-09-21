@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="d-flex">
+        <form method="post"> {% csrf_token %}
+            <h2>Измененить email?</h2>            
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-warning">Сохранить</button>
+            <a href="{% url 'profile' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+{% endblock %}

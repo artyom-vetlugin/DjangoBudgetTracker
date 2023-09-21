@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class="my-5">Здесь будет информация о профиле:</h1>
+    <div class="justify-content-center">
+        <p>Имя пользователя:  {{ user_name }}</p>
+        <div class="mb-4 d-flex">
+            <p>Email:&nbsp;</p>
+            <a href="{% url 'change_email'%}">{{ user.email }}</a> 
+        </div>
+        <div class="mb-4">   
+            <a href="{% url 'change_password'%}" class="btn btn-primary">Сменить пароль</a> 
+        </div>
+    </div>
 {% endblock %}
