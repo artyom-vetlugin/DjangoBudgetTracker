@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  django:
+    build: .
+    container_name: budget_project_django
+    env_file:
+      - ./.env    
+    command: python manage.py runserver 0.0.0.0:8000  
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"    
+    depends_on:
+      - pgdb
+
+  pgdb:
+    image: postgres:16
+    container_name: budget_project_pgdb
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  cloudsqlproxy:
+      container_name: budget_project_cloudsql_proxy
+      image: gcr.io/cloudsql-docker/gce-proxy:latest
+      volumes:
+        - ./gcloud_sql_credentials.json:/secrets/cloudsql/gcloud_sql_credentials.json
+      ports:
+        - 5432:5432
+      command: /cloud_sql_proxy --dir=/cloudsql -instances=${CLOUD_INSTANCE_CONNECTION_NAME}=tcp:0.0.0.0:5432 -credential_file=/secrets/cloudsql/gcloud_sql_credentials.json
+
+volumes:
+  pgdata:
