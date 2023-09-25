@@ -23,11 +23,11 @@
       <a class="navbar-brand" href="{% url 'home'%}">
         <img src="{% static 'images/budget_logo.png' %}" alt="Brand Image" height="50">
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">        
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           {% if user.is_authenticated %}
           <li class="nav-item {%if request.path == '/budget/dashboard'%}nav-item-selected{% endif %}">
             <a class="nav-link" href="{% url 'dashboard' %}">Мой бюджет</a>
@@ -38,10 +38,6 @@
           <li class="nav-item {%if request.path == '/profile'%}nav-item-selected{% endif %}">
             <a class="nav-link" href="{% url 'profile' %}">Профиль</a>
           </li>
-          {% endif %}
-        </ul>
-        <ul class="navbar-nav ml-auto"> 
-          {% if user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout'%}">Выйти</a>
           </li>
