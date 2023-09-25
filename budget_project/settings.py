@@ -43,6 +43,9 @@ try:
         if p.startswith('GOOGLE_CLOUD_PROJECT'): 
             GOOGLE_CLOUD_PROJECT = p.split('=')[1]
  
+        if p.startswith('GS_BUCKET_NAME'):
+            GS_BUCKET_NAME = p.split('=')[1]
+        
         if p.startswith('DATABASE_HOST'):
             DATABASE_HOST = p.split('=')[1]
  
@@ -55,6 +58,9 @@ try:
         if p.startswith('DATABASE_PASSWORD'):
             DATABASE_PASSWORD = p.split('=')[1]
              
+        if p.startswith('CLOUDRUN_SERVICE_URL'):
+            CLOUDRUN_SERVICE_URL = p.split('=')[1]
+        
         if p.startswith('SECRET_KEY'):
             result = ''
             for i, s in enumerate(p.split('=')):
@@ -65,6 +71,12 @@ try:
     # Successfully loading secrets manager means production environment.
     
     DEBUG = False
+
+    if CLOUDRUN_SERVICE_URL:
+        ALLOWED_HOSTS = [CLOUDRUN_SERVICE_URL]
+        CSRF_TRUSTED_ORIGINS = ['https://' + CLOUDRUN_SERVICE_URL]
+        SECURE_SSL_REDIRECT = True
+        SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
  
 except google.auth.exceptions.DefaultCredentialsError:
     ENVIRONMENT = 'dev'
@@ -132,7 +144,7 @@ if ENVIRONMENT == 'prod':
             'NAME': DATABASE_NAME,
             'USER': DATABASE_USER,
             'PASSWORD': DATABASE_PASSWORD,
-            'HOST': 'DATABASE_HOST',
+            'HOST': DATABASE_HOST,
         }
     }
 else:
@@ -197,9 +209,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+if ENVIRONMENT == 'prod':
+    DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+    STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+    GS_DEFAULT_ACL = "publicRead"
+else:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
