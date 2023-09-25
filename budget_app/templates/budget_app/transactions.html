@@ -12,15 +12,20 @@
         </select>
     </div>
     <div class="mb-4">
-        <form method="get" action="." class="d-flex align-items-center">
-            <label for="start_date" class="form-label me-2">с:</label>
-            <input type="date" name="start_date" id="start_date" class="form-control w-25 me-2" value="{{ request.GET.start_date }}">
-            <label for="end_date" class="form-label me-2">по:</label>
-            <input type="date" name="end_date" id="end_date" class="form-control w-25 me-2" value="{{ request.GET.end_date }}">
-            <input type="hidden" name="sort" value="{{ request.GET.sort|default:'date' }}">
-            <input type="hidden" name="order" value="{{ request.GET.order|default:'asc' }}">
-            <input type="submit" value="Задать период" class="btn btn-info me-2">
-            <a href="{% url 'transactions.list' %}" class="btn btn-secondary">Сбросить</a>
+        <form method="get" action="." class="mb-4">
+            <div class="d-flex align-items-center">
+                <label for="start_date" class="form-label me-2">с:</label>
+                <input type="date" name="start_date" id="start_date" class="form-control w-25 me-2" value="{{ request.GET.start_date }}">
+                <label for="end_date" class="form-label me-2">по:</label>
+                <input type="date" name="end_date" id="end_date" class="form-control w-25 me-2" value="{{ request.GET.end_date }}">
+                <input type="hidden" name="sort" value="{{ request.GET.sort|default:'date' }}">
+                <input type="hidden" name="order" value="{{ request.GET.order|default:'asc' }}">
+            </div>
+            <br>
+            <div class="d-flex align-items-center">            
+                <input type="submit" value="Задать период" class="btn btn-info me-2">
+                <a href="{% url 'transactions.list' %}" class="btn btn-secondary">Сбросить</a>
+            </div>
         </form>
     </div>
     <div class="mb-4">   
