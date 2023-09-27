@@ -70,7 +70,7 @@ class TransactionsCreateView(LoginRequiredMixin, CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_categories'] = Category.objects.all()
+        context['all_categories'] = Category.objects.all().order_by('name')
         return context
 
 
@@ -93,7 +93,7 @@ class TransactionsUpdateView(LoginRequiredMixin, UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_categories'] = Category.objects.all()
+        context['all_categories'] = Category.objects.all().order_by('name')
         return context
     
 
