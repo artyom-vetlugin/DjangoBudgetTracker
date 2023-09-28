@@ -131,43 +131,33 @@ WSGI_APPLICATION = 'budget_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql'
+    }
+}
 if ENVIRONMENT == 'prod':
     # Production, Google CloudSQL DB.
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': DATABASE_NAME,
-            'USER': DATABASE_USER,
-            'PASSWORD': DATABASE_PASSWORD,
-            'HOST': DATABASE_HOST,
-        }
-    }
+    DATABASES['default']['NAME'] = DATABASE_NAME
+    DATABASES['default']['USER'] = DATABASE_USER
+    DATABASES['default']['PASSWORD'] = DATABASE_PASSWORD
+    DATABASES['default']['HOST'] = DATABASE_HOST
 else:
+    DATABASES['default']['PORT'] = 5432
     if os.environ.get('USE_CLOUD_PROXY', False) == 'true':
-        print('Connecting to Google Cloud SQL proxy…')
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': os.environ.get('CLOUD_PROXY_DB', ''),
-                'USER': os.environ.get('CLOUD_PROXY_USER', ''),
-                'PASSWORD': os.environ.get('CLOUD_PROXY_PASSWORD', ''),
-                'HOST': 'budget_project_cloudsql_proxy',
-                'PORT': 5432,
-            }
-        }
+        # Local, Google CloudSQL Proxy DB.
+        print('Connect to DB: GOOGLE CLOUD PROXY')
+        DATABASES['default']['NAME'] = os.environ.get('CLOUD_PROXY_DB', '')
+        DATABASES['default']['USER'] = os.environ.get('CLOUD_PROXY_USER', '')
+        DATABASES['default']['PASSWORD'] = os.environ.get('CLOUD_PROXY_PASSWORD', '')
+        DATABASES['default']['HOST'] = 'budget_project_cloudsql_proxy'
     else:
+        # Local, Postgres DB.
         print('Connect to DB: LOCAL POSTGRES')
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': 'postgres',
-                'USER': 'postgres',
-                'PASSWORD': 'postgres',
-                'HOST': 'pgdb',
-                'PORT': 5432,
-            }
-        }
-
+        DATABASES['default']['NAME'] = 'postgres'
+        DATABASES['default']['USER'] = 'postgres'
+        DATABASES['default']['PASSWORD'] = 'postgres'
+        DATABASES['default']['HOST'] = 'pgdb'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
