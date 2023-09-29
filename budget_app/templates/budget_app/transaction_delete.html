@@ -2,7 +2,8 @@
 
 {% block content %}
 <div class="d-flex">
-  <form method="post">{% csrf_token %}
+  <form method="post">
+    {% csrf_token %}
     <h2>Точно удалить?</h2>
     <p>Дата: {{ object.date }}</p>
     <p>Сумма (тг.): {{ object.amount }}</p>

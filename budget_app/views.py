@@ -94,6 +94,11 @@ class TransactionsUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_categories'] = Category.objects.all().order_by('name')
+        # getting current category id to be able to pre-select the value on the form with dynamically filtered list of categories
+        pre_selected_category_id = None
+        if self.object and self.object.category:
+            pre_selected_category_id = self.object.category.id
+        context['pre_selected_category_id'] = pre_selected_category_id
         return context
     
 

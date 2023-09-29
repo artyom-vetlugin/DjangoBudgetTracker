@@ -22,8 +22,8 @@ class TransactionForm(forms.ModelForm):
             'date': 'Дата',
         }
 
-    # def clean_title(self):
-    #     title = self.cleaned_data['title']
-    #     if 'A' not in title:
-    #         raise ValidationError("Only notes with big A are allowed")
-    #     return title
+    def clean_amount(self):
+        amount = self.cleaned_data.get('amount')
+        if amount <= 0:
+            raise forms.ValidationError('Сумма должна быть положительной')
+        return amount
