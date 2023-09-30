@@ -12,6 +12,11 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
     parent_category = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+        unique_together = ['category_type', 'name']
+    
     def __str__(self):
         return self.name
 
