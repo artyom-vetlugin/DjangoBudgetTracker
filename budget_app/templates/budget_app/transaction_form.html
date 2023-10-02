@@ -40,7 +40,36 @@
 
 <form method='POST' id="transactionForm" onsubmit="return validateForm()">
   {% csrf_token %}
-  {{ form.as_p }}
+  <p>
+    {{ form.amount.label_tag }}<br>
+    {{ form.amount }}
+    {% if form.amount.errors %}
+      <div class="alert alert-danger">
+        {{ form.amount.errors.0 }}
+      </div>
+    {% endif %}
+  </p>
+  
+  <p>
+    {{ form.transaction_type.label_tag }}<br>
+    {{ form.transaction_type }}
+  </p>
+
+  <p>
+    {{ form.category.label_tag }}<br>
+    {{ form.category }}
+  </p>
+
+  <p>
+    {{ form.description.label_tag }}<br>
+    {{ form.description }}
+  </p>
+  
+  <p>
+    {{ form.date.label_tag }}<br>
+    {{ form.date }}
+  </p>
+
   <button type="submit" class="btn btn-primary">Сохранить</button>
   <a href="{% url 'transactions.list'%}" class="btn btn-secondary">Отменить</a>
 </form>
@@ -53,11 +82,5 @@
     var preSelectedCategoryId = "{{ pre_selected_category_id }}";
     updateCategoryOptions(preSelectedCategoryId);
   </script>
-
-{% if form.errors %}
-<div class="alert alert-danger my-5">
-    {{form.errors.title.as_text}}
-</div>
-{% endif %}
 
 {% endblock %}
