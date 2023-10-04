@@ -3,6 +3,7 @@ __pycache__
 db.sqlite3
 /env
 *.env
+.venv/
 .vscode
 gcloud_sql_credentials.json
 pgdata/
