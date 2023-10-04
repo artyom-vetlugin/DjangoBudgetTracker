@@ -5,3 +5,4 @@ db.sqlite3
 *.env
 .vscode
 gcloud_sql_credentials.json
+pgdata/
