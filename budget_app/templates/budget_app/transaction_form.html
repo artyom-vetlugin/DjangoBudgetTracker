@@ -5,7 +5,7 @@
 <!-- JS script to filter categories based on transaction type (Income or Expense) -->
 <script>
     // Define a dictionary to hold categories by transaction type
-    var categoriesByType = {
+    let categoriesByType = {
       'I': [],
       'E': [],
     };
@@ -19,15 +19,15 @@
     {% endfor %}
     
     function updateCategoryOptions(preSelectedCategoryId) {
-      var transactionType = document.getElementById("id_transaction_type").value;
-      var categorySelect = document.getElementById("id_category");
+      let transactionType = document.getElementById("id_transaction_type").value;
+      let categorySelect = document.getElementById("id_category");
   
       // Clear existing options
       categorySelect.innerHTML = "";
   
       // Add relevant options based on selected transaction type
       categoriesByType[transactionType].forEach(function(category) {
-        var option = new Option(category.name, category.id);
+        let option = new Option(category.name, category.id);
         categorySelect.options.add(option);
       
         // Check if this option should be selected
@@ -79,7 +79,7 @@
     document.getElementById("id_transaction_type").addEventListener("change", updateCategoryOptions);
   
     // Call it once to initialize
-    var preSelectedCategoryId = "{{ pre_selected_category_id }}";
+    let preSelectedCategoryId = "{{ pre_selected_category_id }}";
     updateCategoryOptions(preSelectedCategoryId);
   </script>
 

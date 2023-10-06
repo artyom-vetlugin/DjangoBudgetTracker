@@ -113,9 +113,9 @@
     <script>
         $(document).ready(function() {
             $("#filterSelect").on('change', function() {
-                var selectedType = $(this).val(); // Get selected value
+                let selectedType = $(this).val(); // Get selected value
                 $("#transactionTableBody tr").each(function() {
-                    var cellValue = $(this).find("td:eq(2)").text(); // Get the text of the third column (index starts at 0)
+                    let cellValue = $(this).find("td:eq(2)").text(); // Get the text of the third column (index starts at 0)
                     if (cellValue === selectedType || selectedType === '') {
                         $(this).show(); // Show row
                     } else {
